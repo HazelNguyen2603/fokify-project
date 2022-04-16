@@ -94,7 +94,7 @@ export const sortResults = async function (resultArr) {
       return a.time - b.time;
     });
     state.search.result = results.map(rec => {
-      console.log(rec.image);
+      // console.log(rec.image);
       return {
         id: rec.id,
         title: rec.title,
