@@ -1,6 +1,6 @@
-
 class SearchView {
   #parentEl = document.querySelector('.search');
+  _btnSort = document.querySelector('.nav__btn--sort');
 
   getQuery() {
     const query = this.#parentEl.querySelector('.search__field').value;

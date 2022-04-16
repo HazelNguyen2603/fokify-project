@@ -4,6 +4,7 @@ import { API_URL, RES_PER_PAGE, KEY } from './config.js';
 import recipeView from './views/recipeView.js';
 // import { getJSON,sendJSON } from './helper.js';
 import { AJAX } from './helper.js';
+import { async } from 'regenerator-runtime';
 
 export const state = {
   recipe: {},
@@ -39,8 +40,6 @@ export const loadRecipe = async function (id) {
     if (state.bookmarks.some(bookmark => bookmark.id === id))
       state.recipe.bookmarked = true;
     else state.recipe.bookmarked = false;
-
-    console.log(state.recipe);
   } catch (err) {
     console.error(`${err} 🎇`);
     throw err;
@@ -52,7 +51,7 @@ export const loadSearchResult = async function (query) {
     state.search.query = query;
 
     const data = await AJAX(`${API_URL}?search=${query}&key=${KEY}`);
-    console.log(data);
+    // console.log(data);
 
     state.search.result = data.data.recipes.map(rec => {
       return {
@@ -63,7 +62,50 @@ export const loadSearchResult = async function (query) {
         ...(rec.key && { key: rec.key }),
       };
     });
+
     state.search.page = 1;
+  } catch (err) {
+    console.error(`${err} 🎇`);
+    throw err;
+  }
+};
+
+export const sortResults = async function (resultArr) {
+  try {
+    resultArr = state.search.result;
+    const results = await Promise.all(
+      resultArr.map(async function (result) {
+        try {
+          // console.log(result);
+          const id = result.id;
+          const data = await AJAX(`${API_URL}/${id}?key=${KEY}`);
+          // console.log(data);
+          state.recipe = createRecipeObject(data);
+          const cookingTimes = state.recipe.cookingTimes;
+          result.time = cookingTimes;
+          return result;
+        } catch (err) {
+          console.log(err);
+        }
+      })
+    );
+
+    results.sort(function (a, b) {
+      return a.time - b.time;
+    });
+    state.search.result = results.map(rec => {
+      console.log(rec.image);
+      return {
+        id: rec.id,
+        title: rec.title,
+        publisher: rec.publisher,
+        image: rec.image,
+        ...(rec.key && { key: rec.key }),
+      };
+    });
+
+    state.search.page = 1;
+    console.log(results);
   } catch (err) {
     console.error(`${err} 🎇`);
     throw err;

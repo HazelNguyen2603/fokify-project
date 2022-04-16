@@ -15,12 +15,11 @@ class PaginationView extends View {
   }
 
   _generateMarkup() {
-    console.log(this._data);
+    // console.log(this._data);
     const curPage = this._data.page;
     const numPages = Math.ceil(
       this._data.result.length / this._data.resultPerPage
     );
-    console.log(numPages);
     // Page 1, and there are other pages
     if (curPage === 1 && numPages > 1) {
       return `
