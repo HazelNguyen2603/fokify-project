@@ -69,7 +69,14 @@ export const loadSearchResult = async function (query) {
     throw err;
   }
 };
+export const getSearchResultsPage = function (page = state.search.page) {
+  state.search.page = page;
 
+  const start = (page - 1) * state.search.resultPerPage; //0;
+  const end = page * state.search.resultPerPage; //9;
+
+  return state.search.result.slice(start, end);
+};
 export const sortResults = async function (resultArr) {
   try {
     resultArr = state.search.result;
@@ -105,20 +112,11 @@ export const sortResults = async function (resultArr) {
     });
 
     state.search.page = 1;
-    console.log(results);
+    // console.log(results);
   } catch (err) {
     console.error(`${err} 🎇`);
     throw err;
   }
-};
-
-export const getSearchResultsPage = function (page = state.search.page) {
-  state.search.page = page;
-
-  const start = (page - 1) * state.search.resultPerPage; //0;
-  const end = page * state.search.resultPerPage; //9;
-
-  return state.search.result.slice(start, end);
 };
 
 export const updateServings = function (newServings) {
@@ -135,7 +133,7 @@ const persistBoomarks = function () {
 };
 export const addBookmark = function (recipe) {
   //Add bookmark
-  state.bookmarks.push(recipe);
+  state.bookmarks.pu_sh(recipe);
   // console.log(state.bookmarks);
 
   //Mark current recipe as bookmark
@@ -193,6 +191,7 @@ export const uploadRecipe = async function (newRecipe) {
     };
     // console.log(recipe);
     const data = await AJAX(`${API_URL}?key=${KEY}`, recipe);
+    console.log(data);
     state.recipe = createRecipeObject(data);
     addBookmark(state.recipe);
   } catch (err) {

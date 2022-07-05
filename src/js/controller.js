@@ -5,11 +5,10 @@ import searchView from './views/searchView.js';
 import resultView from './views/resultView.js';
 import paginationView from './views/paginationView.js';
 import bookmarksView from './views/bookmarksView.js';
-import AddRecipeView from './views/addRecipeView.js';
+import addRecipeView from './views/addRecipeView.js';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import addRecipeView from './views/addRecipeView.js';
 
 if (module.hot) {
   module.hot.accept(); //prevent page reload
@@ -131,7 +130,6 @@ const controlSortResult = async function () {
     if (!results) return;
     if (results) {
       await model.sortResults(model.state.search.result);
-      console.log(model.state.search.result);
       resultView.render(model.getSearchResultsPage());
       paginationView.render(model.state.search);
     }

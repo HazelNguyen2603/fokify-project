@@ -7,7 +7,7 @@ class ResultView extends View {
   _message = '';
 
   _generateMarkup() {
-    // console.log(this._data);
+    // console.log(this._data.map(result => previewView.render(result, false)).join(''));
     return this._data.map(result => previewView.render(result, false)).join('');
   }
   _btnSort = document.querySelector('.nav__btn--sort');
