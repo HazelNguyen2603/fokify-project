@@ -10,17 +10,17 @@ class PaginationView extends View {
       if (!btn) return;
 
       const goToPage = +btn.dataset.goto;
+      console.dir(goToPage);
       handler(goToPage);
     });
   }
 
   _generateMarkup() {
-    console.log(this._data);
+    // console.log(this._data);
     const curPage = this._data.page;
     const numPages = Math.ceil(
       this._data.result.length / this._data.resultPerPage
     );
-    console.log(numPages);
     // Page 1, and there are other pages
     if (curPage === 1 && numPages > 1) {
       return `

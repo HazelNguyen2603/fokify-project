@@ -1,4 +1,3 @@
-
 class SearchView {
   #parentEl = document.querySelector('.search');
 
