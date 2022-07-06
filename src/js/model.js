@@ -133,7 +133,7 @@ const persistBoomarks = function () {
 };
 export const addBookmark = function (recipe) {
   //Add bookmark
-  state.bookmarks.pu_sh(recipe);
+  state.bookmarks.push(recipe);
   // console.log(state.bookmarks);
 
   //Mark current recipe as bookmark
@@ -191,7 +191,7 @@ export const uploadRecipe = async function (newRecipe) {
     };
     // console.log(recipe);
     const data = await AJAX(`${API_URL}?key=${KEY}`, recipe);
-    console.log(data);
+    // console.log(data);
     state.recipe = createRecipeObject(data);
     addBookmark(state.recipe);
   } catch (err) {
